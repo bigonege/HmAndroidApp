@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="false"
+    android:layout_alignParentRight="false"
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.meterboxdatacollection"
+    tools:showIn="@layout/activity_meterboxdatacollection">
+
+    <ScrollView
+        android:id="@id/scrollview_caijiqiDateCollection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="10.0dip"
+        android:paddingRight="10.0dip"
+        android:paddingTop="10.0dip"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_ammeterDateCollection_ScanCode"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/ammeterDateCollection_ScanCode_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_ammeterDateCollection_ScanCode_edit"
+                    android:layout_width="180.0dip"
+                    android:layout_height="30.0dip"
+                    android:inputType="number"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:textSize="10.0sp" />
+
+                <Button
+                    android:id="@id/ammeter_data_collection_call_zxing"
+                    android:layout_width="50.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/call_zxing_button_text"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_accourt_name_2"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/accourt_name_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_accourt_name_edit_2"
+                    android:layout_width="180.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:singleLine="false"
+                    android:textSize="10.0sp" />
+
+                <Button
+                    android:id="@id/ammeter_data_collection_call_zxing"
+                    android:layout_width="50.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/jiaoyan_text"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_anzhuangdizhi_name"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/install_address"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_anzhuangdizhi_edit"
+                    android:layout_width="180.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:singleLine="false"
+                    android:textSize="10.0sp" />
+
+                <Button
+                    android:id="@id/ammeter_data_collection_call_zxing"
+                    android:layout_width="50.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/call_gps_button_text"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_anzhuangdizhi_name"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/detail_address"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_anzhuangdizhi_edit"
+                    android:layout_width="180.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:singleLine="false"
+                    android:textSize="10.0sp" />
+
+                <TextView
+                    android:id="@id/ammeter_data_collection_call_zxing"
+                    android:layout_width="50.0dip"
+                    android:layout_height="wrap_content"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_ammeter_sub_type"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/ammeterDataCollectionlongitude_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_ammeter_sub_type_edit"
+                    android:layout_width="180.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:textSize="10.0sp"
+                    tools:hint="不可手动输入" />
+
+                <TextView
+                    android:id="@id/ammeter_data_collection_call_zxing"
+                    android:layout_width="50.0dip"
+                    android:layout_height="wrap_content"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_ammeter_scan"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/ammeterDataCollectionlatitude_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_ammeter_scan_edit"
+                    android:layout_width="180.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:textSize="10.0sp"
+                    tools:hint="不可手动输入" />
+
+                <TextView
+                    android:id="@id/ammeter_data_collection_call_zxing"
+                    android:layout_width="50.0dip"
+                    android:layout_height="wrap_content"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_ammeter_sub_type"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/ammeter_row_location_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/meterBoxCollectionRowNum"
+                    android:layout_width="180.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:textSize="10.0sp"
+                    tools:hint="只可输入数字" />
+
+                <TextView
+                    android:id="@id/ammeter_data_collection_call_zxing"
+                    android:layout_width="50.0dip"
+                    android:layout_height="wrap_content"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/meterBoxRowNumTV"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/ammeter_column_location_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/meterBoxCollectionColumnNum"
+                    android:layout_width="180.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:textSize="10.0sp"
+                    tools:hint="只可输入数字" />
+
+                <TextView
+                    android:id="@id/ammeter_data_collection_call_zxing"
+                    android:layout_width="50.0dip"
+                    android:layout_height="wrap_content"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@id/caijiqi_ammeter_sub_data_collection_pre_step"
+                    android:layout_width="80.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pre_step"
+                    android:textSize="10.0sp" />
+
+                <Button
+                    android:id="@+id/caijiqi_ammeter_sub_data_collection_next_step"
+                    android:layout_width="80.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/next_step"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

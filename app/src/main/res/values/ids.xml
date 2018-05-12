@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="auto_focus" />
+    <item type="id" name="decode" />
+    <item type="id" name="decode_failed" />
+    <item type="id" name="decode_succeeded" />
+    <item type="id" name="encode_failed" />
+    <item type="id" name="encode_succeeded" />
+    <item type="id" name="launch_product_query" />
+    <item type="id" name="quit" />
+    <item type="id" name="restart_preview" />
+    <item type="id" name="return_scan_result" />
+    <item type="id" name="search_book_contents_failed" />
+    <item type="id" name="search_book_contents_succeeded" />
+    <item type="id" name="gridview" />
+    <item type="id" name="webview" />
+    <item type="id" name="about_version_code">false</item>
+    <item type="id" name="split">false</item>
+    <item type="id" name="scrollview_ammeterDateCollection">false</item>
+    <item type="id" name="ammeterDateCollection_ScanCode">false</item>
+    <item type="id" name="ammeterDateCollection_ScanCode_edit">false</item>
+    <item type="id" name="accourt_name_2">false</item>
+    <item type="id" name="accourt_name_edit_2">false</item>
+    <item type="id" name="anzhuangdizhi_name">false</item>
+    <item type="id" name="anzhuangdizhi_edit">false</item>
+    <item type="id" name="ammeter_sub_type">false</item>
+    <item type="id" name="ammeter_sub_type_edit">false</item>
+    <item type="id" name="ammeter_scan">false</item>
+    <item type="id" name="ammeter_scan_edit">false</item>
+    <item type="id" name="ammeter_zhichanghao">false</item>
+    <item type="id" name="ammeter_zhichanghao_edit">false</item>
+    <item type="id" name="ammeter_row_location">false</item>
+    <item type="id" name="ammeter_row_location_edit">false</item>
+    <item type="id" name="ammeter_column_location">false</item>
+    <item type="id" name="ammeter_column_location_edit">false</item>
+    <item type="id" name="ammeter_sub_data_collection_pre_step">false</item>
+    <item type="id" name="ammeter_sub_data_collection_output">false</item>
+    <item type="id" name="chai_ji_qi_id">false</item>
+    <item type="id" name="ammeter_back_button_id">false</item>
+    <item type="id" name="scrollview_caijiqiDateCollection">false</item>
+    <item type="id" name="caijiqi_ammeterDateCollection_ScanCode">false</item>
+    <item type="id" name="caijiqi_ammeterDateCollection_ScanCode_edit">false</item>
+    <item type="id" name="caijiqi_accourt_name_2">false</item>
+    <item type="id" name="caijiqi_accourt_name_edit_2">false</item>
+    <item type="id" name="caijiqi_anzhuangdizhi_name">false</item>
+    <item type="id" name="caijiqi_anzhuangdizhi_edit">false</item>
+    <item type="id" name="caijiqi_ammeter_sub_type">false</item>
+    <item type="id" name="caijiqi_ammeter_sub_type_edit">false</item>
+    <item type="id" name="caijiqi_ammeter_scan">false</item>
+    <item type="id" name="caijiqi_ammeter_scan_edit">false</item>
+    <item type="id" name="ammeter_data_collection_call_zxing">false</item>
+    <item type="id" name="caijiqi_ammeter_zhichanghao">false</item>
+    <item type="id" name="caijiqi_ammeter_zhichanghao_edit">false</item>
+    <item type="id" name="ammeter_data_collection_call_camera">false</item>
+    <item type="id" name="caijiqi_ammeter_sub_data_collection_pre_step">false</item>
+    <item type="id" name="caijiqi_ammeter_sub_data_collection_output">false</item>
+    <item type="id" name="caijiqi_back_button_id">false</item>
+    <item type="id" name="preview_view">false</item>
+    <item type="id" name="viewfinder_view">false</item>
+    <item type="id" name="include1">false</item>
+    <item type="id" name="timeIsOut_id">false</item>
+    <item type="id" name="scrollview_ammeterBoxDateCollection">false</item>
+    <item type="id" name="ammeterBoxDateCollection_ScanCode">false</item>
+    <item type="id" name="ammeterBoxDateCollection_ScanCode_edit">false</item>
+    <item type="id" name="access_point">false</item>
+    <item type="id" name="access_point_edit">false</item>
+    <item type="id" name="address">false</item>
+    <item type="id" name="address_edit">false</item>
+    <item type="id" name="ammeter_data_collection_call_gps">false</item>
+    <item type="id" name="accuracy">false</item>
+    <item type="id" name="accuracy_edit">false</item>
+    <item type="id" name="provider_type">false</item>
+    <item type="id" name="provider_type_edit">false</item>
+    <item type="id" name="xingshu">false</item>
+    <item type="id" name="xingshu_edit">false</item>
+    <item type="id" name="ammeterDataCollectionlongitude">false</item>
+    <item type="id" name="ammeterDataCollectionlongitude_edit">false</item>
+    <item type="id" name="ammeterDataCollectionlatitude">false</item>
+    <item type="id" name="ammeterDataCollectionlatitude_edit">false</item>
+    <item type="id" name="meterBoxCollectionRowNum">false</item>
+    <item type="id" name="meterBoxRowNumTV">false</item>
+    <item type="id" name="ammeterDataCollectionRowNum">false</item>
+    <item type="id" name="ammeterDataCollectionRowNum_edit">false</item>
+    <item type="id" name="ammeterDataCollectionColumnNum">false</item>
+    <item type="id" name="meterBoxCollectionColumnNum">false</item>
+    <item type="id" name="ammeterDataCollectionColumnNum_edit">false</item>
+    <item type="id" name="ammeterDataCollectionPressureClass">false</item>
+    <item type="id" name="ammeterDataCollectionPressureClass_spinner">false</item>
+    <item type="id" name="instrument_type">false</item>
+    <item type="id" name="instrument_type_spinner">false</item>
+    <item type="id" name="ammeter_type">false</item>
+    <item type="id" name="ammeter_type_spinner">false</item>
+    <item type="id" name="quality">false</item>
+    <item type="id" name="quality_spinner">false</item>
+    <item type="id" name="ammeter_data_collection_next_step">false</item>
+    <item type="id" name="electricity_back_button_id">false</item>
+    <item type="id" name="ammeterBox_collection_data_button">false</item>
+    <item type="id" name="back_button_id">false</item>
+    <item type="id" name="button_back">false</item>
+    <item type="id" name="textview_title">false</item>
+    <item type="id" name="itemImage">false</item>
+    <item type="id" name="itemCode">false</item>
+    <item type="id" name="scroll_view">false</item>
+    <item type="id" name="accourt_name">false</item>
+    <item type="id" name="accourt_name_edit">false</item>
+    <item type="id" name="ammeter_data_collection_call_math">false</item>
+    <item type="id" name="install_location">false</item>
+    <item type="id" name="install_location_edit">false</item>
+    <item type="id" name="install_account_edit">false</item>
+    <item type="id" name="scroll_btns">false</item>
+    <item type="id" name="action_settings">false</item>
+
+
+    <item type="id" name="meter_pre_step">false</item>
+
+
+</resources>

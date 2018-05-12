@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="meter_box_edit_width">200.0dip</string>
+    <string name="meter_box_text_width">10.0dip</string>
+    <string name="meter_box_button_width">50.0dip</string>
+</resources>

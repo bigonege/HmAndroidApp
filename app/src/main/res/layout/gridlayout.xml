@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="0dp"
+    android:orientation="vertical"
+    android:padding="0dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="0dp">
+
+    <LinearLayout
+        android:id="@id/scroll_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30.0dip"
+        android:orientation="vertical"
+        android:scrollbars="vertical">
+
+        <GridView
+            android:id="@id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="60.0dip"
+            android:gravity="bottom|center_horizontal"
+            android:horizontalSpacing="1.0dip"
+            android:numColumns="1"
+            android:scrollbars="horizontal|vertical"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1.0dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="false"
+        android:layout_gravity="center_horizontal"
+        android:gravity="bottom|center"
+        android:orientation="horizontal"
+        tools:layout_marginBottom="10dp">
+
+        <Button
+            android:id="@id/meter_pre_step"
+            android:layout_width="60.0dip"
+            android:layout_height="wrap_content"
+            android:text="@string/pre_step"
+            android:textSize="10.0sp" />
+
+        <Button
+            android:id="@id/ammeter_sub_data_collection_output"
+            android:layout_width="60.0dip"
+            android:layout_height="wrap_content"
+            android:text="@string/savetext"
+            android:textSize="10.0sp" />
+    </LinearLayout>
+</RelativeLayout>

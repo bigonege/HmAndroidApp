@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@id/scrollview_caijiqiDateCollection"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="20.0dip"
+        android:paddingRight="20.0dip"
+        android:paddingTop="30.0dip"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_ammeterDateCollection_ScanCode"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/ammeterDateCollection_ScanCode_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_ammeterDateCollection_ScanCode_edit"
+                    android:layout_width="200.0dip"
+                    android:layout_height="30.0dip"
+                    android:inputType="number"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_accourt_name_2"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/accourt_name_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_accourt_name_edit_2"
+                    android:layout_width="200.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:singleLine="false"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_anzhuangdizhi_name"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/anzhuangdizhi_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_anzhuangdizhi_edit"
+                    android:layout_width="200.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:singleLine="false"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_ammeter_sub_type"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/ammeter_sub_type_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_ammeter_sub_type_edit"
+                    android:layout_width="200.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:singleLine="false"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_ammeter_scan"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/caijiqi_scan_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_ammeter_scan_edit"
+                    android:layout_width="150.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:textSize="10.0sp" />
+
+                <Button
+                    android:id="@id/ammeter_data_collection_call_zxing"
+                    android:layout_width="50.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/call_zxing_button_text"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@id/caijiqi_ammeter_zhichanghao"
+                    android:layout_width="100.0dip"
+                    android:layout_height="30.0dip"
+                    android:gravity="right"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:text="@string/ammeter_zhichanghao_text"
+                    android:textSize="10.0sp" />
+
+                <EditText
+                    android:id="@id/caijiqi_ammeter_zhichanghao_edit"
+                    android:layout_width="200.0dip"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:lineSpacingExtra="3.0dip"
+                    android:lineSpacingMultiplier="1.0"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@id/ammeter_data_collection_call_camera"
+                    android:layout_width="60.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/call_camera_button_text"
+                    android:textSize="10.0sp" />
+
+                <Button
+                    android:id="@id/caijiqi_ammeter_sub_data_collection_pre_step"
+                    android:layout_width="80.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pre_step"
+                    android:textSize="10.0sp" />
+
+                <Button
+                    android:id="@id/caijiqi_ammeter_sub_data_collection_output"
+                    android:layout_width="80.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="@string/output_data"
+                    android:textSize="10.0sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="left"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@id/caijiqi_back_button_id"
+            android:layout_width="120.0dip"
+            android:layout_height="wrap_content"
+            android:text="@string/toMain_button_text" />
+    </LinearLayout>
+</FrameLayout>

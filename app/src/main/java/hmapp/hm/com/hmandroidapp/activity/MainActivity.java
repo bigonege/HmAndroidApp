@@ -1,29 +1,21 @@
 package hmapp.hm.com.hmandroidapp.activity;
-
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-/*import com.amap.api.maps.AMap;
-import com.amap.api.maps.MapView;*/
+
 
 import hmapp.hm.com.hmandroidapp.R;
 import hmapp.hm.com.hmandroidapp.util.SysApplication;
 import hmapp.hm.com.hmandroidapp.zxing.android.CaptureActivity;
-import android.os.Handler;
-import android.os.Message;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button scanBtn;
@@ -31,15 +23,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String DECODED_CONTENT_KEY = "codedContent";
     private static final String DECODED_BITMAP_KEY = "codedBitmap";
     private static final int REQUEST_CODE_SCAN = 0x0000;
-/*    private MapView mapView;
-    private AMap aMap;*/
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SysApplication.getInstance().addActivity(this);
-        /*mapView = (MapView) findViewById(R.id.map);
-        mapView.onCreate(savedInstanceState);// 此方法必须重写
-        aMap = mapView.getMap();*/
         initMainPage();
     }
 

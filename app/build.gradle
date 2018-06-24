@@ -37,5 +37,5 @@ dependencies {
     implementation files('libs/core-3.0.0.jar')
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
+    implementation 'com.squareup.okhttp3:okhttp:3.2.0'
 }

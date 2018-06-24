@@ -22,16 +22,12 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import org.apache.http.Header;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,16 +35,6 @@ import java.util.HashMap;
 import hmapp.hm.com.hmandroidapp.OKhttp.ReqCallBack;
 import hmapp.hm.com.hmandroidapp.OKhttp.RequestManager;
 import hmapp.hm.com.hmandroidapp.R;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okio.BufferedSink;
-
 
 public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity {
 
@@ -63,7 +49,7 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
     private int rowNum = 0;
     private Button preStepButton;
     private Button saveButton;
-    OkHttpClient okHttpClient = new OkHttpClient();
+    //OkHttpClient okHttpClient = new OkHttpClient();
     String url = "http://169.254.196.180:9000/";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

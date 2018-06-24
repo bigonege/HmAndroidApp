@@ -44,6 +44,8 @@
     <item type="id" name="caijiqi_accourt_name_edit_2">false</item>
     <item type="id" name="caijiqi_anzhuangdizhi_name">false</item>
     <item type="id" name="caijiqi_anzhuangdizhi_edit">false</item>
+    <item type="id" name="caijiqi_detaildizhi_name">false</item>
+    <item type="id" name="caijiqi_detaildizhi_edit">false</item>
     <item type="id" name="caijiqi_ammeter_sub_type">false</item>
     <item type="id" name="caijiqi_ammeter_sub_type_edit">false</item>
     <item type="id" name="caijiqi_ammeter_scan">false</item>

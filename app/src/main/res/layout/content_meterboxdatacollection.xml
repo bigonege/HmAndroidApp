@@ -11,7 +11,10 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activity.meterboxdatacollection"
     tools:showIn="@layout/activity_meterboxdatacollection">
-
+    <com.amap.api.maps.MapView
+        android:id="@+id/mapdw"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <ScrollView
         android:id="@id/scrollview_caijiqiDateCollection"
         android:layout_width="match_parent"
@@ -95,7 +98,7 @@
                     android:id="@id/ammeter_data_collection_call_zxing"
                     android:layout_width="50.0dip"
                     android:layout_height="wrap_content"
-                    android:text="@string/jiaoyan_text"
+                    android:text="  "
                     android:textSize="10.0sp" />
             </LinearLayout>
 
@@ -131,7 +134,7 @@
                     android:layout_width="50.0dip"
                     android:layout_height="wrap_content"
                     android:text="@string/call_gps_button_text"
-                    android:textSize="10.0sp" />
+                    android:textSize="10.0sp" android:onClick="clickDw"/>
             </LinearLayout>
 
             <LinearLayout
@@ -142,7 +145,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@id/caijiqi_anzhuangdizhi_name"
+                    android:id="@id/caijiqi_detaildizhi_name"
                     android:layout_width="100.0dip"
                     android:layout_height="30.0dip"
                     android:gravity="right"
@@ -152,7 +155,7 @@
                     android:textSize="10.0sp" />
 
                 <EditText
-                    android:id="@id/caijiqi_anzhuangdizhi_edit"
+                    android:id="@id/caijiqi_detaildizhi_edit"
                     android:layout_width="180.0dip"
                     android:layout_height="wrap_content"
                     android:inputType="text"

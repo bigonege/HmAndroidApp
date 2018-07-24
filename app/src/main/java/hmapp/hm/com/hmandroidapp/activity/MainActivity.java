@@ -1,28 +1,29 @@
 package hmapp.hm.com.hmandroidapp.activity;
-import android.Manifest;
+
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.LatLonPoint;
@@ -30,22 +31,36 @@ import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.route.BusRouteResult;
+import com.amap.api.services.route.DriveRouteResult;
+import com.amap.api.services.route.RideRouteResult;
+import com.amap.api.services.route.RouteSearch;
+import com.amap.api.services.route.WalkRouteResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import hmapp.hm.com.hmandroidapp.PermissionsActivity;
 import hmapp.hm.com.hmandroidapp.R;
 import hmapp.hm.com.hmandroidapp.util.AMapUtil;
 import hmapp.hm.com.hmandroidapp.util.SysApplication;
 import hmapp.hm.com.hmandroidapp.util.Utils;
-import hmapp.hm.com.hmandroidapp.zxing.android.CaptureActivity;
 
 
-public class MainActivity extends PermissionsActivity implements AMapLocationListener,GeocodeSearch.OnGeocodeSearchListener,View.OnClickListener {
+public class MainActivity extends PermissionsActivity
+        implements AMapLocationListener,
+        GeocodeSearch.OnGeocodeSearchListener,
+        View.OnClickListener,
+        RouteSearch.OnRouteSearchListener{
     private Button scanBtn;
     private TextView resultTv;
+    private Spinner spinner;
+    private List<String> data_list;
+    private ArrayAdapter<String> arr_adapter;
     private static final String DECODED_CONTENT_KEY = "codedContent";
     private static final String DECODED_BITMAP_KEY = "codedBitmap";
     private static final int REQUEST_CODE_SCAN = 0x0000;
-
+    private Button search;
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
     private TextView textView;
@@ -55,7 +70,7 @@ public class MainActivity extends PermissionsActivity implements AMapLocationLis
     private GeocodeSearch geocoderSearch;
     private Marker geoMarker;
     private static LatLonPoint latLonPoint;
-
+    RouteSearch routeSearch;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -64,9 +79,51 @@ public class MainActivity extends PermissionsActivity implements AMapLocationLis
         textView = (TextView) findViewById(R.id.text_map);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
+        spinner = (Spinner) findViewById(R.id.selectcondition);
+        //数据
+        data_list = new ArrayList<String>();
+        data_list.add("计量箱资产号");
+        data_list.add("电能表资产号");
+        data_list.add("台区名称");
+        //适配器
+        arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data_list);
+        //设置样式
+        arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //加载适配器
+        spinner.setAdapter(arr_adapter);
         Location();
+        findViewById(R.id.button6);
+        search = (Button) findViewById(R.id.button6);
+        search.setOnClickListener(this);
+
+        final AMap amap = mapView.getMap();
+
+
+        //路径规划
+        amap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Location myLocation = amap.getMyLocation();
+                String s = myLocation.toString();
+
+                //2、获取终点经纬度
+                LatLng position = marker.getPosition();
+                LatLonPoint from = new LatLonPoint(myLocation.getLatitude(),myLocation.getLongitude());
+                Log.e("TAG",myLocation.getLatitude()+"    "+myLocation.getLongitude());
+                LatLonPoint to = new LatLonPoint(position.latitude,position.longitude);
+                RouteSearch.FromAndTo fat = new RouteSearch.FromAndTo(from,to);
+                RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fat,RouteSearch.DRIVING_MULTI_STRATEGY_FASTEST_SHORTEST_AVOID_CONGESTION,null,null,"");
+                routeSearch = new RouteSearch(MainActivity.this);
+                routeSearch.setRouteSearchListener(MainActivity.this);
+                routeSearch.calculateDriveRouteAsyn(query);
+                return false;
+            }
+        });
+
+
     }
-    private void initMap(){
+
+    private void initMap() {
 
         if (aMap == null) {
             aMap = mapView.getMap();
@@ -105,8 +162,8 @@ public class MainActivity extends PermissionsActivity implements AMapLocationLis
                         result = Utils.getLocationStr(loc, 1);
                         strMsg = result.split(",");
                         Toast.makeText(MainActivity.this, "定位成功", Toast.LENGTH_LONG).show();
-                        textView.setText("地址：" + strMsg[0] + "\n" + "经    度：" + strMsg[1] + "\n" + "纬    度：" + strMsg[2]);
-                        latLonPoint= new LatLonPoint(Double.valueOf(strMsg[2]), Double.valueOf(strMsg[1]));
+                        //textView.setText("地址：" + strMsg[0] + "\n" + "经    度：" + strMsg[1] + "\n" + "纬    度：" + strMsg[2]);
+                        latLonPoint = new LatLonPoint(Double.valueOf(strMsg[2]), Double.valueOf(strMsg[1]));
                         initMap();
                     } catch (Exception e) {
                         Toast.makeText(MainActivity.this, "定位失败", Toast.LENGTH_LONG).show();
@@ -115,7 +172,9 @@ public class MainActivity extends PermissionsActivity implements AMapLocationLis
                 default:
                     break;
             }
-        };
+        }
+
+        ;
 
     };
 
@@ -165,8 +224,8 @@ public class MainActivity extends PermissionsActivity implements AMapLocationLis
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
 
-                Toast.makeText(MainActivity.this,result.getRegeocodeAddress().getFormatAddress()
-                        + "附近",Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, result.getRegeocodeAddress().getFormatAddress()
+                        + "附近", Toast.LENGTH_LONG).show();
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                         AMapUtil.convertToLatLng(latLonPoint), 15));
                 geoMarker.setPosition(AMapUtil.convertToLatLng(latLonPoint));
@@ -178,18 +237,18 @@ public class MainActivity extends PermissionsActivity implements AMapLocationLis
     }
 
 
-
     private void initMainPage() {
-        Button meterBoxButton = (Button)findViewById(R.id.ammeterBox_collection_data_button);
+        Button meterBoxButton = (Button) findViewById(R.id.ammeterBox_collection_data_button);
         //scanBtn = (Button) findViewById(R.id.scanBtn);
-        resultTv = (TextView) findViewById(R.id.resultTv);
+        //resultTv = (TextView) findViewById(R.id.resultTv);
 
         //scanBtn.setOnClickListener(this);
 
     }
-    public void initMeterBox(View view){
+
+    public void initMeterBox(View view) {
         Intent intent = new Intent();
-        intent.setClass(this,MeterBoxActivity.class);
+        intent.setClass(this, meterboxdatacollection.class);
         startActivity(intent);
     }
 
@@ -268,4 +327,23 @@ public class MainActivity extends PermissionsActivity implements AMapLocationLis
     }
 
 
+    @Override
+    public void onBusRouteSearched(BusRouteResult busRouteResult, int i) {
+
+    }
+
+    @Override
+    public void onDriveRouteSearched(DriveRouteResult driveRouteResult, int i) {
+
+    }
+
+    @Override
+    public void onWalkRouteSearched(WalkRouteResult walkRouteResult, int i) {
+
+    }
+
+    @Override
+    public void onRideRouteSearched(RideRouteResult rideRouteResult, int i) {
+
+    }
 }

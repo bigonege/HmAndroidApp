@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +18,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
 import android.os.Bundle;
@@ -23,20 +27,28 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.services.geocoder.GeocodeSearch;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import hmapp.hm.com.hmandroidapp.OKhttp.ReqCallBack;
 import hmapp.hm.com.hmandroidapp.OKhttp.RequestManager;
 import hmapp.hm.com.hmandroidapp.R;
+import hmapp.hm.com.hmandroidapp.zxing.android.CaptureActivity;
 
-public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity {
+public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
+        implements AdapterView.OnItemClickListener {
 
     private EditText address;
     private String boxType;
@@ -49,8 +61,12 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
     private int rowNum = 0;
     private Button preStepButton;
     private Button saveButton;
+
+    private BaseAdapter adapter;
+    private List<Map<String, Object>> dataList;
     //OkHttpClient okHttpClient = new OkHttpClient();
     String url = "http://169.254.196.180:9000/";
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gridlayout);
@@ -62,17 +78,18 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
         Bundle extras = intent.getExtras();
         rowNum = Integer.parseInt(extras.getString("RowNum"));
         columnNum = Integer.parseInt(extras.getString("ColumnNum"));
-        preStepButton = (Button)findViewById(R.id.meter_pre_step);
-        saveButton = (Button)findViewById(R.id.ammeter_sub_data_collection_output);
+        preStepButton = (Button) findViewById(R.id.meter_pre_step);
+        saveButton = (Button) findViewById(R.id.ammeter_sub_data_collection_output);
         preStepButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        gridView = (GridView)findViewById(R.id.gridview);
+        gridView = (GridView) findViewById(R.id.gridview);
         gridView.setNumColumns(columnNum);
-        gridView.setAdapter(new MyAdapter(this));
+        adapter = new MyAdapter(this);
+        gridView.setAdapter(adapter);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,11 +98,29 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
                 findInfo(v);
             }
         });
+
+
+
+        /*dataList=new ArrayList<>();
+        adapter=new SimpleAdapter(this,getData(),R.layout.gridlayout,new String[]{"image","text"},
+                new int[]{R.id.image,R.id.text});
+        gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(this);*/
     }
 
+    private List<Map<String, Object>> getData() {
+        for (int i = 0; i < rowNum * columnNum; i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("image", R.drawable.launcher_icon);
+            map.put("text", "表" + i);
+            dataList.add(map);
+        }
+        return dataList;
+    }
 
     /**
      * 在任何线程当中都可以调用弹出吐司方法
+     *
      * @param result
      */
     private void showToastInAnyThread(final String result) {
@@ -96,30 +131,40 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(this, "我是" + position, Toast.LENGTH_SHORT).show();
+        Log.i("tag", "我是" + position);
+    }
+
     //自定义适配器
     class MyAdapter extends BaseAdapter {
 
         private Context context;
-        public MyAdapter(Context context){
+
+        public MyAdapter(Context context) {
             this.context = context;
         }
-        private int[] images = new int[rowNum*columnNum];
+
+        private int[] images = new int[rowNum * columnNum];
 
         //获取图片有多少个
         @Override
         public int getCount() {
-            for (int i=0;i<rowNum;i++){
-                for(int j=0;j<columnNum;j++){
-                    Toast.makeText(ElectricityMeterBoxDateCollectionActivity.this,"i="+String.valueOf(i)+" j="+String.valueOf(j)+"String.valueOf(i*columnNum+j="+String.valueOf(i*columnNum+j),Toast.LENGTH_SHORT);
+            for (int i = 0; i < rowNum; i++) {
+                for (int j = 0; j < columnNum; j++) {
+                    Toast.makeText(ElectricityMeterBoxDateCollectionActivity.this, "i=" + String.valueOf(i) + " j=" + String.valueOf(j) + "String.valueOf(i*columnNum+j=" + String.valueOf(i * columnNum + j), Toast.LENGTH_SHORT);
                     //每一张图片
-                    images[i*columnNum+j]=R.drawable.launcher_icon;
+                    images[i * columnNum + j] = R.drawable.launcher_icon;
                 }
             }
-            return rowNum*columnNum;
+            return rowNum * columnNum;
         }
 
         //每一个图片
@@ -135,20 +180,53 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
 
         //给每一个item填充图片
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewGroup viewGroup ;
-            ImageView iv = new ImageView(context);
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.grid_item, parent, false);
+            ImageView iv = view.findViewById(R.id.itemImage);
             iv.setImageResource(images[position]);
-            return iv;
+            EditText et = view.findViewById(R.id.itemCode);
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    scanCode(position);
+                }
+            });
+            if(null != retCodes && !TextUtils.isEmpty(retCodes[position])){
+                et.setText(retCodes[position]);
+            }else {
+                et.setText(null);
+            }
+            return view;
+        }
+    }
+
+
+    private void scanCode(int position) {
+        startActivityForResult(new Intent(ElectricityMeterBoxDateCollectionActivity.this,
+                CaptureActivity.class), position);
+
+    }
+
+    String[] retCodes;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(null == retCodes)
+            retCodes = new String[adapter.getCount()];
+        if(null != data){
+            Log.e("s", "sssssssssssssssssss " + requestCode +
+                    " " + resultCode + " " + data.getStringExtra("codedContent"));
+            retCodes[requestCode] = data.getStringExtra("codedContent");
+            adapter.notifyDataSetChanged();
         }
     }
 
     protected void onStop() {
         super.onStop();
     }
-    
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == 0x4) {
+        if (keyCode == 0x4) {
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -160,16 +238,17 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
 
 
     public static void main(String[] args) {
-        int rowNum=3;
-        int columnNum=4;
-         int[] images1 = new int[rowNum*columnNum];
-        for (int i=0;i<rowNum;i++){
-            for(int j=0;j<columnNum;j++){
-                System.out.println("i="+i+"j="+j+"line="+images1[i*columnNum+j]);
-                images1[i*columnNum+j]=R.drawable.launcher_icon;
+        int rowNum = 3;
+        int columnNum = 4;
+        int[] images1 = new int[rowNum * columnNum];
+        for (int i = 0; i < rowNum; i++) {
+            for (int j = 0; j < columnNum; j++) {
+                System.out.println("i=" + i + "j=" + j + "line=" + images1[i * columnNum + j]);
+                images1[i * columnNum + j] = R.drawable.launcher_icon;
             }
         }
     }
+
     //带參数的Get请求
     public void findInfo(View view) {
 
@@ -178,10 +257,10 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String startTime = dateFormat.format(new Date());
         String endTime = dateFormat.format(new Date());
-        paramsMap.put("type","1");
-        paramsMap.put("startTime",startTime);
-        paramsMap.put("endTime",endTime);
-        instance.requestAsyn( "findDataByType", instance.TYPE_GET, paramsMap, new ReqCallBack<Object>() {
+        paramsMap.put("type", "1");
+        paramsMap.put("startTime", startTime);
+        paramsMap.put("endTime", endTime);
+        instance.requestAsyn("findDataByType", instance.TYPE_GET, paramsMap, new ReqCallBack<Object>() {
 
             @Override
             public void onReqSuccess(Object result) {
@@ -195,6 +274,7 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
         });
 
     }
+
     //带參数的Get请求
     public void saveInfo(View view) {
         RequestManager instance = RequestManager.getInstance(getApplicationContext());
@@ -202,25 +282,25 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String startTime = dateFormat.format(new Date());
         String endTime = dateFormat.format(new Date());
-        paramsMap.put("tgname","台区1");
-        paramsMap.put("meterBoxTgno","343434");
-        paramsMap.put("assetNo","343434");
-        paramsMap.put("installAddress","合肥供电公司");
-        paramsMap.put("detailAddress","合肥供电公司");
-        paramsMap.put("posX","2323");
-        paramsMap.put("posY","35345.765");
-        paramsMap.put("rowNum","2");
-        paramsMap.put("colNum","3");
-        paramsMap.put("collector","是的范德萨");
-        paramsMap.put("collDate","双方都");
-        paramsMap.put("meterBoxStatusCode","43");
+        paramsMap.put("tgname", "台区1");
+        paramsMap.put("meterBoxTgno", "343434");
+        paramsMap.put("assetNo", "343434");
+        paramsMap.put("installAddress", "合肥供电公司");
+        paramsMap.put("detailAddress", "合肥供电公司");
+        paramsMap.put("posX", "2323");
+        paramsMap.put("posY", "35345.765");
+        paramsMap.put("rowNum", "2");
+        paramsMap.put("colNum", "3");
+        paramsMap.put("collector", "是的范德萨");
+        paramsMap.put("collDate", "双方都");
+        paramsMap.put("meterBoxStatusCode", "43");
 
-        paramsMap.put("boxMeterRela","43");
-        paramsMap.put("meterAssetNo","4334343");
-        paramsMap.put("rowNo","2");
-        paramsMap.put("colNo","3");
-        paramsMap.put("meterStatusCode","2");
-        instance.requestAsyn( "saveAll", instance.TYPE_POST_FORM, paramsMap, new ReqCallBack<Object>() {
+        paramsMap.put("boxMeterRela", "43");
+        paramsMap.put("meterAssetNo", "4334343");
+        paramsMap.put("rowNo", "2");
+        paramsMap.put("colNo", "3");
+        paramsMap.put("meterStatusCode", "2");
+        instance.requestAsyn("saveAll", instance.TYPE_POST_FORM, paramsMap, new ReqCallBack<Object>() {
 
             @Override
             public void onReqSuccess(Object result) {
@@ -253,7 +333,7 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
 
                     conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");// 设置发送的数据为表单类型，会被添加到http body当中
                     String id = "1";
-                   // String data = "?id=" + URLEncoder.encode(id, "utf-8") ;
+                    // String data = "?id=" + URLEncoder.encode(id, "utf-8") ;
 
                     //conn.setRequestProperty("Content-Length", String.valueOf(data.length()));
 

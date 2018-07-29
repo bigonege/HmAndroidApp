@@ -52,6 +52,7 @@
     <string name="savetext">保存</string>
 
     <string name="title_activity_meter_box">"计量箱数据采集"</string>
+    <string name="title_activity_naviActivity">"导航"</string>
     <string name="title_activity_meterboxdatacollection">"电能表数据采集"</string>
     <string name="viewfinderview_status_text1">将二维码/条码放入取景框内</string>
     <string name="viewfinderview_status_text2">即可自动扫描</string>
@@ -64,7 +65,7 @@
     <string name="notifyMsg">当前应用缺少必要权限。\n\n请点击\"设置\"-\"权限\"-打开所需权限。</string>
     <string name="setting">设置</string>
     <string name="cancel">取消</string>
-    <string name="title_activity_navi">NaviActivity</string>
+    <string name="title_activity_navi">导航</string>
 
     <string name="navi_end_poi_calculate_title">我的位置到电能表-驾驶</string>
     <string name="navi_end_poi_calculate_desc">我的位置到电能表-驾驶</string>

@@ -53,7 +53,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.NaviActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -86,10 +86,10 @@
             android:name="com.amap.api.v2.apikey"
             android:value="8b82224452a79a3d51b8dd7e08cf1087" />
 
-        <!--<activity
+        <activity
             android:name=".activity.NaviActivity"
             android:label="@string/title_activity_navi"
-            android:theme="@style/AppTheme.NoActionBar"></activity>-->
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

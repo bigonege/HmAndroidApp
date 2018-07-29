@@ -1,6 +1,7 @@
 package hmapp.hm.com.hmandroidapp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -83,17 +84,22 @@ public class NaviActivity extends CheckPermissionsActivity implements INaviInfoC
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            Intent intent = getIntent();
+            String position1 = intent.getStringExtra("position");
+            double jingdu = intent.getDoubleExtra("jingdu", 0);
+            double weidu = intent.getDoubleExtra("weidu",0);
+            LatLng toPosition = new LatLng(jingdu, weidu);
             if (position == 0) {
                 AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(),
-                        new AmapNaviParams(null, null, new Poi("电能表1地址", p3, ""),
+                        new AmapNaviParams(null, null, new Poi(position1, toPosition, ""),
                                 AmapNaviType.DRIVER), NaviActivity.this);
             } else if (position == 1) {
                 AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(),
-                        new AmapNaviParams(null, null, new Poi("电能表2地址", p3, ""),
+                        new AmapNaviParams(null, null, new Poi(position1, toPosition, ""),
                                 AmapNaviType.WALK), NaviActivity.this);
             } else if (position == 2) {
                 AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(),
-                        new AmapNaviParams(null, null, new Poi("电能表3地址", p3, ""),
+                        new AmapNaviParams(null, null, new Poi(position1, toPosition, ""),
                                 AmapNaviType.RIDE), NaviActivity.this);
             }
         }

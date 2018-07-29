@@ -3,6 +3,7 @@ package hmapp.hm.com.hmandroidapp.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +27,8 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
@@ -60,6 +63,7 @@ public class MainActivity extends PermissionsActivity
     private static final String DECODED_CONTENT_KEY = "codedContent";
     private static final String DECODED_BITMAP_KEY = "codedBitmap";
     private static final int REQUEST_CODE_SCAN = 0x0000;
+    private Button naviButton;
     private Button search;
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
@@ -71,6 +75,8 @@ public class MainActivity extends PermissionsActivity
     private Marker geoMarker;
     private static LatLonPoint latLonPoint;
     RouteSearch routeSearch;
+    Button searchButton;
+    MyLocationStyle myLocationStyle;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -92,18 +98,56 @@ public class MainActivity extends PermissionsActivity
         //加载适配器
         spinner.setAdapter(arr_adapter);
         Location();
-        findViewById(R.id.button6);
-        search = (Button) findViewById(R.id.button6);
-        search.setOnClickListener(this);
+        //导航按钮
+        naviButton = (Button) findViewById(R.id.button6);
+        naviButton.setOnClickListener(this);
+        naviButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("position","合肥");
+                intent.putExtra("jingdu",39.904556);
+                intent.putExtra("weidu",116.427231);
+                intent.setClass(MainActivity.this,NaviActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        final AMap amap = mapView.getMap();
+        //搜索按钮
+        searchButton = (Button) findViewById(R.id.button3);
+        searchButton.setOnClickListener(this);
+        aMap = mapView.getMap();
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //2、获取终点经纬度
+                 LatLng position = new LatLng(39.917337, 116.397056);
+                latLonPoint= new LatLonPoint(position.latitude,position.longitude);
+                MarkerOptions markerOption = new MarkerOptions();
+                markerOption.position(position);
+                markerOption.title("电表位置");
+
+                markerOption.draggable(true);//设置Marker可拖动
+                markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                        .decodeResource(getResources(),R.mipmap.icon_gcoding)));
+                // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                markerOption.setFlat(true);//设置marker平贴地图效果
+                aMap.addMarker(markerOption);
 
 
-        //路径规划
-        amap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+                getAddress(latLonPoint);
+            }
+        });
+
+
+        // 定义 Marker 点击事件监听
+        AMap.OnMarkerClickListener markerClickListener = new AMap.OnMarkerClickListener() {
+            // marker 对象被点击时回调的接口
+            // 返回 true 则表示接口已响应事件，否则返回false
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Location myLocation = amap.getMyLocation();
+                Location myLocation = aMap.getMyLocation();
                 String s = myLocation.toString();
 
                 //2、获取终点经纬度
@@ -118,22 +162,19 @@ public class MainActivity extends PermissionsActivity
                 routeSearch.calculateDriveRouteAsyn(query);
                 return false;
             }
-        });
-
+        };
+        // 绑定 Marker 被点击事件
+        aMap.setOnMarkerClickListener(markerClickListener);
 
     }
 
     private void initMap() {
 
-        if (aMap == null) {
-            aMap = mapView.getMap();
-
-            //用高德默认图标
-            //geoMarker= aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-            //自定义图标
-            geoMarker = aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
-                    .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.punch_dw))));
-        }
+        geoMarker = aMap.addMarker(new MarkerOptions()
+                .anchor(0.5f, 0.5f)
+                .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_gcoding)))
+                .title("电表")
+                .setFlat(true));
         geocoderSearch = new GeocodeSearch(this);
         geocoderSearch.setOnGeocodeSearchListener(this);
         getAddress(latLonPoint);

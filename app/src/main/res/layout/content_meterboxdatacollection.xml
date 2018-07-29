@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentLeft="false"
     android:layout_alignParentRight="false"
@@ -42,7 +42,7 @@
 
                 <TextView
                     android:id="@id/caijiqi_ammeterDateCollection_ScanCode"
-                    android:layout_width="100.0dip"
+                    android:layout_width="80dp"
                     android:layout_height="30.0dip"
                     android:gravity="right"
                     android:lineSpacingExtra="3.0dip"
@@ -52,9 +52,11 @@
 
                 <EditText
                     android:id="@id/caijiqi_ammeterDateCollection_ScanCode_edit"
-                    android:layout_width="180.0dip"
-                    android:layout_height="30.0dip"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:inputType="number"
+                    android:maxLines="3"
                     android:lineSpacingExtra="3.0dip"
                     android:lineSpacingMultiplier="1.0"
                     android:textSize="10.0sp" />
@@ -76,7 +78,7 @@
 
                 <TextView
                     android:id="@id/caijiqi_accourt_name_2"
-                    android:layout_width="100.0dip"
+                    android:layout_width="80dp"
                     android:layout_height="30.0dip"
                     android:gravity="right"
                     android:lineSpacingExtra="3.0dip"
@@ -86,8 +88,10 @@
 
                 <EditText
                     android:id="@id/caijiqi_accourt_name_edit_2"
-                    android:layout_width="180.0dip"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="3"
                     android:inputType="text"
                     android:lineSpacingExtra="3.0dip"
                     android:lineSpacingMultiplier="1.0"
@@ -111,7 +115,7 @@
 
                 <TextView
                     android:id="@id/caijiqi_anzhuangdizhi_name"
-                    android:layout_width="100.0dip"
+                    android:layout_width="80dp"
                     android:layout_height="30.0dip"
                     android:gravity="right"
                     android:lineSpacingExtra="3.0dip"
@@ -121,10 +125,12 @@
 
                 <EditText
                     android:id="@id/caijiqi_anzhuangdizhi_edit"
-                    android:layout_width="180.0dip"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:inputType="text"
                     android:lineSpacingExtra="3.0dip"
+                    android:maxLines="3"
                     android:lineSpacingMultiplier="1.0"
                     android:singleLine="false"
                     android:textSize="10.0sp" />
@@ -146,7 +152,7 @@
 
                 <TextView
                     android:id="@id/caijiqi_detaildizhi_name"
-                    android:layout_width="100.0dip"
+                    android:layout_width="80dp"
                     android:layout_height="30.0dip"
                     android:gravity="right"
                     android:lineSpacingExtra="3.0dip"
@@ -156,9 +162,11 @@
 
                 <EditText
                     android:id="@id/caijiqi_detaildizhi_edit"
-                    android:layout_width="180.0dip"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:inputType="text"
+                    android:maxLines="3"
                     android:lineSpacingExtra="3.0dip"
                     android:lineSpacingMultiplier="1.0"
                     android:singleLine="false"
@@ -180,7 +188,7 @@
 
                 <TextView
                     android:id="@id/caijiqi_ammeter_sub_type"
-                    android:layout_width="100.0dip"
+                    android:layout_width="80dp"
                     android:layout_height="30.0dip"
                     android:gravity="right"
                     android:lineSpacingExtra="3.0dip"
@@ -190,8 +198,10 @@
 
                 <EditText
                     android:id="@id/caijiqi_ammeter_sub_type_edit"
-                    android:layout_width="180.0dip"
+                    android:layout_width="0dp"
+                    android:maxLines="3"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:inputType="numberDecimal"
                     android:lineSpacingExtra="3.0dip"
                     android:lineSpacingMultiplier="1.0"
@@ -214,7 +224,7 @@
 
                 <TextView
                     android:id="@id/caijiqi_ammeter_scan"
-                    android:layout_width="100.0dip"
+                    android:layout_width="80dp"
                     android:layout_height="30.0dip"
                     android:gravity="right"
                     android:lineSpacingExtra="3.0dip"
@@ -224,8 +234,10 @@
 
                 <EditText
                     android:id="@id/caijiqi_ammeter_scan_edit"
-                    android:layout_width="180.0dip"
+                    android:layout_width="0dp"
+                    android:maxLines="3"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:inputType="numberDecimal"
                     android:lineSpacingExtra="3.0dip"
                     android:lineSpacingMultiplier="1.0"
@@ -248,7 +260,7 @@
 
                 <TextView
                     android:id="@id/caijiqi_ammeter_sub_type"
-                    android:layout_width="100.0dip"
+                    android:layout_width="80dp"
                     android:layout_height="30.0dip"
                     android:gravity="right"
                     android:lineSpacingExtra="3.0dip"
@@ -258,8 +270,10 @@
 
                 <EditText
                     android:id="@id/meterBoxCollectionRowNum"
-                    android:layout_width="180.0dip"
+                    android:layout_width="0dp"
+                    android:maxLines="3"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:inputType="numberDecimal"
                     android:lineSpacingExtra="3.0dip"
                     android:lineSpacingMultiplier="1.0"
@@ -282,7 +296,7 @@
 
                 <TextView
                     android:id="@id/meterBoxRowNumTV"
-                    android:layout_width="100.0dip"
+                    android:layout_width="80dp"
                     android:layout_height="30.0dip"
                     android:gravity="right"
                     android:lineSpacingExtra="3.0dip"
@@ -292,9 +306,11 @@
 
                 <EditText
                     android:id="@id/meterBoxCollectionColumnNum"
-                    android:layout_width="180.0dip"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:inputType="numberDecimal"
+                    android:maxLines="3"
                     android:lineSpacingExtra="3.0dip"
                     android:lineSpacingMultiplier="1.0"
                     android:textSize="10.0sp"

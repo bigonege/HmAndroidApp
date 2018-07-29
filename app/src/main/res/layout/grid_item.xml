@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <ImageButton android:id="@id/itemImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/launcher_icon" />
-    <EditText android:textSize="10.0sp" android:id="@id/itemCode" android:layout_width="200.0dip" android:layout_height="30.0dip" android:maxLength="22" android:lineSpacingExtra="3.0dip" android:lineSpacingMultiplier="1.0" android:inputType="number" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@id/itemImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/launcher_icon" />
+
+    <EditText
+        android:id="@id/itemCode"
+        android:layout_width="match_parent"
+        android:layout_height="40.0dip"
+        android:inputType="number"
+        android:lineSpacingExtra="3.0dip"
+        android:lineSpacingMultiplier="1.0"
+        android:maxLength="30"
+        android:textSize="10.0dp" />
 </LinearLayout>

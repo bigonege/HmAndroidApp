@@ -282,17 +282,20 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String startTime = dateFormat.format(new Date());
         String endTime = dateFormat.format(new Date());
-        paramsMap.put("tgname", "台区1");
-        paramsMap.put("meterBoxTgno", "343434");
+
+        Intent intent = getIntent();
+
+        paramsMap.put("tgname", intent.getStringExtra("sstg"));
+        paramsMap.put("meterBoxTgno", intent.getStringExtra("scanText"));
         paramsMap.put("assetNo", "343434");
-        paramsMap.put("installAddress", "合肥供电公司");
-        paramsMap.put("detailAddress", "合肥供电公司");
-        paramsMap.put("posX", "2323");
-        paramsMap.put("posY", "35345.765");
+        paramsMap.put("installAddress", intent.getStringExtra("anzhuangdizhi"));
+        paramsMap.put("detailAddress", intent.getStringExtra("accuracy_edit"));
+        paramsMap.put("posX", intent.getStringExtra("longitude"));
+        paramsMap.put("posY", intent.getStringExtra("latitude"));
         paramsMap.put("rowNum", "2");
         paramsMap.put("colNum", "3");
-        paramsMap.put("collector", "是的范德萨");
-        paramsMap.put("collDate", "双方都");
+        paramsMap.put("collector", "");
+        paramsMap.put("collDate", startTime);
         paramsMap.put("meterBoxStatusCode", "43");
 
         paramsMap.put("boxMeterRela", "43");

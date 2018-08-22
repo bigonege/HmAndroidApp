@@ -57,6 +57,7 @@ public class meterboxdatacollection extends PermissionsActivity implements AMapL
 
     private Button callGpsBtn;
     private EditText longitude;
+    private EditText sstg;
 
     private EditText latitude;
 
@@ -94,15 +95,14 @@ public class meterboxdatacollection extends PermissionsActivity implements AMapL
          meterDataCollectionRowNumEdit = (EditText) findViewById(R.id.meterBoxCollectionRowNum);
          meterDataCollectionColumnNumEdit = (EditText) findViewById(R.id.meterBoxCollectionColumnNum);
          scanBtn = (Button)findViewById(R.id.ammeter_data_collection_call_zxing);
-         scanText = (EditText)findViewById(R.id.caijiqi_ammeterDateCollection_ScanCode_edit);
          scanBtn.setOnClickListener(this);
-
-        scanText = (EditText)findViewById(R.id.caijiqi_ammeterDateCollection_ScanCode_edit);
+        scanText = (EditText)findViewById(R.id.caijiqi_ammeterDateCollection_ScanCode_edit);//计量箱条码
+        sstg = (EditText)findViewById(R.id.caijiqi_accourt_name_edit_2);//所属台区
         callGpsBtn = (Button)findViewById(R.id.ammeter_data_collection_call_gps);
-        longitude = (EditText)findViewById(R.id.caijiqi_ammeter_sub_type_edit);
-        latitude = (EditText)findViewById(R.id.caijiqi_ammeter_scan_edit);
-        accuracy_edit = (EditText)findViewById(R.id.caijiqi_detaildizhi_edit);
-        anzhuangdizhi = (EditText)findViewById(R.id.caijiqi_anzhuangdizhi_edit);
+        longitude = (EditText)findViewById(R.id.caijiqi_ammeter_sub_type_edit);//经度
+        latitude = (EditText)findViewById(R.id.caijiqi_ammeter_scan_edit);//纬度
+        accuracy_edit = (EditText)findViewById(R.id.caijiqi_detaildizhi_edit);//详细地址
+        anzhuangdizhi = (EditText)findViewById(R.id.caijiqi_anzhuangdizhi_edit);//安装位置
 
     }
 
@@ -151,6 +151,12 @@ public class meterboxdatacollection extends PermissionsActivity implements AMapL
 
         Intent intent = new Intent();
 
+        intent.putExtra("scanText",scanText.getText().toString());
+        intent.putExtra("sstg",sstg.getText().toString());
+        intent.putExtra("anzhuangdizhi",anzhuangdizhi.getText().toString());
+        intent.putExtra("accuracy_edit",accuracy_edit.getText().toString());
+        intent.putExtra("longitude",longitude.getText().toString());
+        intent.putExtra("latitude",latitude.getText().toString());
         intent.putExtra("RowNum",RowNum);
         intent.putExtra("ColumnNum",ColumnNum);
         intent.setClass(meterboxdatacollection.this,ElectricityMeterBoxDateCollectionActivity.class);

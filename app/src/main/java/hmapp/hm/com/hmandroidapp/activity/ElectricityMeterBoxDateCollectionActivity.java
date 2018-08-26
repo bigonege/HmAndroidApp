@@ -65,7 +65,7 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
     private BaseAdapter adapter;
     private List<Map<String, Object>> dataList;
     //OkHttpClient okHttpClient = new OkHttpClient();
-    String url = "http://169.254.196.180:9000/";
+    String url = "http://47.97.6.36:9000/";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -328,7 +328,7 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
             @Override
             public void run() {
                 try {
-                    String path = "http://169.254.196.180:9000/meter/find?id=1";
+                    String path = "http://47.97.6.36:9000/meter/find?id=1";
                     URL url = new URL(path);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");

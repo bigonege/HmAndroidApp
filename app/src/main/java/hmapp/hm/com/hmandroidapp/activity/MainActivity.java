@@ -10,8 +10,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,12 +41,25 @@ import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
+import com.google.gson.Gson;
+import com.google.zxing.common.StringUtils;
 
+
+import net.sf.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import hmapp.hm.com.hmandroidapp.OKhttp.ReqCallBack;
+import hmapp.hm.com.hmandroidapp.OKhttp.RequestManager;
 import hmapp.hm.com.hmandroidapp.PermissionsActivity;
 import hmapp.hm.com.hmandroidapp.R;
+import hmapp.hm.com.hmandroidapp.model.MeterBoxInfo;
+import hmapp.hm.com.hmandroidapp.model.MeterInfo;
+import hmapp.hm.com.hmandroidapp.model.Tginfo;
 import hmapp.hm.com.hmandroidapp.util.AMapUtil;
 import hmapp.hm.com.hmandroidapp.util.SysApplication;
 import hmapp.hm.com.hmandroidapp.util.Utils;
@@ -74,9 +89,16 @@ public class MainActivity extends PermissionsActivity
     private GeocodeSearch geocoderSearch;
     private Marker geoMarker;
     private static LatLonPoint latLonPoint;
+    String assetType;
+    double posX;
+    double posY;
+    String navAddress;
+
+    EditText assetNo;
     RouteSearch routeSearch;
     Button searchButton;
     MyLocationStyle myLocationStyle;
+    private static final String[] m_Countries = { "计量箱资产号", "电能表资产号", "台区名称" }; //定义数组
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -86,17 +108,26 @@ public class MainActivity extends PermissionsActivity
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         spinner = (Spinner) findViewById(R.id.selectcondition);
-        //数据
-        data_list = new ArrayList<String>();
-        data_list.add("计量箱资产号");
-        data_list.add("电能表资产号");
-        data_list.add("台区名称");
-        //适配器
-        arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data_list);
+        assetNo = (EditText)findViewById(R.id.editText2);
+        //将可选内容与ArrayAdapter连接，
+        arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, m_Countries);
         //设置样式
         arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //加载适配器
         spinner.setAdapter(arr_adapter);
+        //添加Spinner事件监听
+        spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                assetType = m_Countries[arg2];
+                //设置显示当前选择的项
+                arg0.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
         Location();
         //导航按钮
         naviButton = (Button) findViewById(R.id.button6);
@@ -104,12 +135,17 @@ public class MainActivity extends PermissionsActivity
         naviButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("position","合肥");
-                intent.putExtra("jingdu",39.904556);
-                intent.putExtra("weidu",116.427231);
-                intent.setClass(MainActivity.this,NaviActivity.class);
-                startActivity(intent);
+                if(navAddress==null ){
+                    Toast.makeText(MainActivity.this, "请先搜索位置后在导航", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent intent = new Intent();
+                    intent.putExtra("position",navAddress);
+                    intent.putExtra("jingdu",posX);
+                    intent.putExtra("weidu",posY);
+                    intent.setClass(MainActivity.this,NaviActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -120,23 +156,7 @@ public class MainActivity extends PermissionsActivity
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //2、获取终点经纬度
-                 LatLng position = new LatLng(39.917337, 116.397056);
-                latLonPoint= new LatLonPoint(position.latitude,position.longitude);
-                MarkerOptions markerOption = new MarkerOptions();
-                markerOption.position(position);
-                markerOption.title("电表位置");
-
-                markerOption.draggable(true);//设置Marker可拖动
-                markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
-                        .decodeResource(getResources(),R.mipmap.icon_gcoding)));
-                // 将Marker设置为贴地显示，可以双指下拉地图查看效果
-                markerOption.setFlat(true);//设置marker平贴地图效果
-                aMap.addMarker(markerOption);
-
-
-                getAddress(latLonPoint);
+                searchAssetNoRemote();
             }
         });
 
@@ -165,6 +185,136 @@ public class MainActivity extends PermissionsActivity
         };
         // 绑定 Marker 被点击事件
         aMap.setOnMarkerClickListener(markerClickListener);
+
+    }
+
+    private void searchAssetNoRemote() {
+        //1、根据资产类型从App服务器查询电表经纬度和地址("计量箱资产号", "电能表资产号", "台区名称" )
+        //带參数的Get请求
+        RequestManager instance = RequestManager.getInstance(getApplicationContext());
+        HashMap<String, String> paramsMap = new HashMap<String, String>();
+         if(assetType!=null){
+             if ("计量箱资产号".equals(assetType)){
+                 paramsMap.put("assetNo", assetNo.getText().toString());
+                 instance.requestAsyn("meterbox/findMeterBoxByAssetNo", instance.TYPE_GET, paramsMap, new ReqCallBack<Object>() {
+                     @Override
+                     public void onReqSuccess(Object result) {
+                         MeterBoxInfo meterBoxInfo = new MeterBoxInfo();
+                         String resultStr = String.valueOf(result);
+                         Gson gson = new Gson();
+                         if(result!=null){
+                             meterBoxInfo= (MeterBoxInfo) gson.fromJson(result.toString(),MeterBoxInfo.class);
+                             if(meterBoxInfo!=null){
+                                 navAddress = meterBoxInfo.getDetailAddress();
+                                 posX = meterBoxInfo.getPosX();
+                                 posY = meterBoxInfo.getPosY();
+                                 //2、获取终点经纬度
+                                 LatLng position = new LatLng(posX, posY);
+                                 latLonPoint= new LatLonPoint(position.latitude,position.longitude);
+                                 MarkerOptions markerOption = new MarkerOptions();
+                                 markerOption.position(position);
+                                 markerOption.title(navAddress);
+                                 markerOption.draggable(true);//设置Marker可拖动
+                                 markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                                         .decodeResource(getResources(), R.mipmap.icon_gcoding)));
+                                 // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                                 markerOption.setFlat(true);//设置marker平贴地图效果
+                                 aMap.addMarker(markerOption);
+                                 getAddress(latLonPoint);
+                             }else{
+                                 Toast.makeText(MainActivity.this, "没有搜索到该计量箱地理位置", Toast.LENGTH_LONG).show();
+
+                             }
+
+                         }else{
+                             Toast.makeText(MainActivity.this, "没有搜索到该计量箱地理位置", Toast.LENGTH_LONG).show();
+
+                         }
+
+                     }
+
+                     @Override
+                     public void onReqFailed(String errorMsg) {
+                         System.out.println("查询计量箱失败");
+                         Toast.makeText(MainActivity.this, "没有搜索到该计量箱地理位置", Toast.LENGTH_LONG).show();
+
+                     }
+                 });
+             }else if ("电能表资产号".equals(assetType)){
+                 paramsMap.put("assetNo", assetNo.getText().toString());
+                     instance.requestAsyn("meter/findByAssetNo", instance.TYPE_GET, paramsMap, new ReqCallBack<Object>() {
+                     @Override
+                     public void onReqSuccess(Object result) {
+                         MeterInfo meterInfo = new MeterInfo();
+                         String resultStr = String.valueOf(result);
+                         Gson gson = new Gson();
+                         if(result!=null){
+                             meterInfo= (MeterInfo) gson.fromJson(result.toString(),MeterInfo.class);
+                             if(meterInfo!=null){
+                                 navAddress = meterInfo.getDetailAddress();
+                                 posX = meterInfo.getPosX();
+                                 posY = meterInfo.getPosY();
+                                 //2、获取终点经纬度
+                                 LatLng position = new LatLng(posX, posY);
+                                 latLonPoint= new LatLonPoint(position.latitude,position.longitude);
+                                 MarkerOptions markerOption = new MarkerOptions();
+                                 markerOption.position(position);
+                                 markerOption.title(navAddress);
+                                 markerOption.draggable(true);//设置Marker可拖动
+                                 markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                                         .decodeResource(getResources(), R.mipmap.icon_gcoding)));
+                                 // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+                                 markerOption.setFlat(true);//设置marker平贴地图效果
+                                 aMap.addMarker(markerOption);
+                                 getAddress(latLonPoint);
+                             }else{
+                                 Toast.makeText(MainActivity.this, "没有搜索到该电能表地理位置", Toast.LENGTH_LONG).show();
+
+                             }
+
+                         }else{
+                             Toast.makeText(MainActivity.this, "没有搜索到该电能表地理位置", Toast.LENGTH_LONG).show();
+
+                         }
+
+                     }
+
+                     @Override
+                     public void onReqFailed(String errorMsg) {
+                         System.out.println("查询电能表失败");
+                         Toast.makeText(MainActivity.this, "没有搜索到该电能表地理位置", Toast.LENGTH_LONG).show();
+
+                     }
+                 });
+             }else if ("台区名称".equals(assetType)){
+                 paramsMap.put("assetNo", assetNo.getText().toString());
+                 instance.requestAsyn("tg/findTgByName", instance.TYPE_GET, paramsMap, new ReqCallBack<Object>() {
+                     @Override
+                     public void onReqSuccess(Object result) {
+                         Tginfo tginfo = new Tginfo();
+                         String resultStr = String.valueOf(result);
+                         Gson gson = new Gson();
+                         if(result!=null){
+                             tginfo= (Tginfo) gson.fromJson(result.toString(),Tginfo.class);
+
+                             /*navAddress = tginfo.getDetailAddress();
+                             posX = tginfo.getPosX();
+                             posY = tginfo.getPosY();*/
+                         }
+                         Toast.makeText(MainActivity.this, "没有搜索到该台区地理位置", Toast.LENGTH_LONG).show();
+
+                     }
+
+                     @Override
+                     public void onReqFailed(String errorMsg) {
+                         System.out.println("查询台区失败");
+                         Toast.makeText(MainActivity.this, "没有搜索到该台区地理位置", Toast.LENGTH_LONG).show();
+
+                     }
+                 });
+             }
+         }
+
 
     }
 
@@ -387,4 +537,6 @@ public class MainActivity extends PermissionsActivity
     public void onRideRouteSearched(RideRouteResult rideRouteResult, int i) {
 
     }
+
+    
 }

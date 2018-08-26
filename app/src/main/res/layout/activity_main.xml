@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:paddingRight="10dp">
 
-        <Spinner
+            <Spinner
             android:id="@+id/selectcondition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

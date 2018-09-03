@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.services.geocoder.GeocodeSearch;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +46,8 @@ import java.util.Map;
 import hmapp.hm.com.hmandroidapp.OKhttp.ReqCallBack;
 import hmapp.hm.com.hmandroidapp.OKhttp.RequestManager;
 import hmapp.hm.com.hmandroidapp.R;
+import hmapp.hm.com.hmandroidapp.model.MeterBoxInfo;
+import hmapp.hm.com.hmandroidapp.model.MeterInfo;
 import hmapp.hm.com.hmandroidapp.zxing.android.CaptureActivity;
 
 public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
@@ -65,7 +68,8 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
     private BaseAdapter adapter;
     private List<Map<String, Object>> dataList;
     //OkHttpClient okHttpClient = new OkHttpClient();
-    String url = "http://47.97.6.36:9000/";
+    String url = "http://47.97.6.36:9000/";//线上地址
+    //String url = "http://10.98.4.62:9000/";//家本地地址
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +80,8 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
     private void init() {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        rowNum = Integer.parseInt(extras.getString("RowNum"));
-        columnNum = Integer.parseInt(extras.getString("ColumnNum"));
+        rowNum = Integer.parseInt(extras.getString("rowNum"));
+        columnNum = Integer.parseInt(extras.getString("columnNum"));
         preStepButton = (Button) findViewById(R.id.meter_pre_step);
         saveButton = (Button) findViewById(R.id.ammeter_sub_data_collection_output);
         preStepButton.setOnClickListener(new View.OnClickListener() {
@@ -284,25 +288,39 @@ public class ElectricityMeterBoxDateCollectionActivity extends AppCompatActivity
         String endTime = dateFormat.format(new Date());
 
         Intent intent = getIntent();
-
+        //Integer rowNum = Integer.valueOf(intent.getStringExtra("rowNum"));
+        Integer columnNum = Integer.valueOf(intent.getStringExtra("columnNum"));
         paramsMap.put("tgname", intent.getStringExtra("sstg"));
         paramsMap.put("meterBoxTgno", intent.getStringExtra("scanText"));
-        paramsMap.put("assetNo", "343434");
+        paramsMap.put("assetNo", intent.getStringExtra("scanText"));
         paramsMap.put("installAddress", intent.getStringExtra("anzhuangdizhi"));
         paramsMap.put("detailAddress", intent.getStringExtra("accuracy_edit"));
         paramsMap.put("posX", intent.getStringExtra("longitude"));
         paramsMap.put("posY", intent.getStringExtra("latitude"));
-        paramsMap.put("rowNum", "2");
-        paramsMap.put("colNum", "3");
+        paramsMap.put("rowNum", intent.getStringExtra("rowNum"));
+        paramsMap.put("colNum", intent.getStringExtra("columnNum"));
         paramsMap.put("collector", "");
         paramsMap.put("collDate", startTime);
-        paramsMap.put("meterBoxStatusCode", "43");
+        paramsMap.put("meterBoxStatusCode", "1");
 
-        paramsMap.put("boxMeterRela", "43");
-        paramsMap.put("meterAssetNo", "4334343");
-        paramsMap.put("rowNo", "2");
-        paramsMap.put("colNo", "3");
-        paramsMap.put("meterStatusCode", "2");
+        paramsMap.put("boxMeterRela", intent.getStringExtra("scanText"));
+        //组装电能表数据为json字符串
+        List<MeterInfo> meterInfoList = new ArrayList<MeterInfo>();
+        if(retCodes!=null){
+            for (int i=0;i<retCodes.length;i++){
+                if(retCodes[i]!=null){
+                    MeterInfo meterInfo = new MeterInfo();
+                    meterInfo.setAssetNo(retCodes[i]);
+                    meterInfo.setRowNo((i/columnNum+1));
+                    meterInfo.setColNo((i%columnNum+1));
+                    meterInfoList.add(meterInfo);
+                }
+
+            }
+        }
+        Gson json  = new Gson();
+        String meters = json.toJson(meterInfoList);
+        paramsMap.put("meterListsJsonStr", meters);//电能表数据集合
         instance.requestAsyn("saveAll", instance.TYPE_POST_FORM, paramsMap, new ReqCallBack<Object>() {
 
             @Override

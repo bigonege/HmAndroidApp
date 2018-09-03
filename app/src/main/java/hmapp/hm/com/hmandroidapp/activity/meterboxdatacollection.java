@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -103,7 +104,14 @@ public class meterboxdatacollection extends PermissionsActivity implements AMapL
         latitude = (EditText)findViewById(R.id.caijiqi_ammeter_scan_edit);//纬度
         accuracy_edit = (EditText)findViewById(R.id.caijiqi_detaildizhi_edit);//详细地址
         anzhuangdizhi = (EditText)findViewById(R.id.caijiqi_anzhuangdizhi_edit);//安装位置
-
+        scanText.setInputType(InputType.TYPE_NULL);//禁止软键盘
+        longitude.setInputType(InputType.TYPE_NULL);//禁止软键盘
+        latitude.setInputType(InputType.TYPE_NULL);//禁止软键盘
+        accuracy_edit.setInputType(InputType.TYPE_NULL);//禁止软键盘
+        anzhuangdizhi.setInputType(InputType.TYPE_NULL);//禁止软键盘
+        accuracy_edit.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        accuracy_edit.setSingleLine(false);
+        accuracy_edit.setHorizontallyScrolling(false);
     }
 
     public void clickDw(View v){
@@ -115,6 +123,36 @@ public class meterboxdatacollection extends PermissionsActivity implements AMapL
     private void toNextStep() {
 
         //数据校验
+        //scanText = (EditText)findViewById(R.id.caijiqi_ammeterDateCollection_ScanCode_edit);//计量箱条码
+        //sstg = (EditText)findViewById(R.id.caijiqi_accourt_name_edit_2);//所属台区
+        //longitude = (EditText)findViewById(R.id.caijiqi_ammeter_sub_type_edit);//经度
+        //latitude = (EditText)findViewById(R.id.caijiqi_ammeter_scan_edit);//纬度
+        //accuracy_edit = (EditText)findViewById(R.id.caijiqi_detaildizhi_edit);//详细地址
+        //anzhuangdizhi = (EditText)findViewById(R.id.caijiqi_anzhuangdizhi_edit);//安装位置
+        if((scanText.getText().toString() == null) || (scanText.getText().toString().trim().equals(""))) {
+            windowsUtil.alertInfo_ok("计量箱条码不能为空", this);
+            return;
+        }
+        if((sstg.getText().toString() == null) || (sstg.getText().toString().trim().equals(""))) {
+            windowsUtil.alertInfo_ok("所属不能为空", this);
+            return;
+        }
+        if((anzhuangdizhi.getText().toString() == null) || (anzhuangdizhi.getText().toString().trim().equals(""))) {
+            windowsUtil.alertInfo_ok("安装位置不能为空", this);
+            return;
+        }
+        if((accuracy_edit.getText().toString() == null) || (accuracy_edit.getText().toString().trim().equals(""))) {
+            windowsUtil.alertInfo_ok("详细地址不能为空", this);
+            return;
+        }
+        if((longitude.getText().toString() == null) || (longitude.getText().toString().trim().equals(""))) {
+            windowsUtil.alertInfo_ok("经度不能为空", this);
+            return;
+        }
+        if((latitude.getText().toString() == null) || (latitude.getText().toString().trim().equals(""))) {
+            windowsUtil.alertInfo_ok("纬度不能为空", this);
+            return;
+        }
 
 
         String RowNum = meterDataCollectionRowNumEdit.getText().toString();
@@ -157,8 +195,8 @@ public class meterboxdatacollection extends PermissionsActivity implements AMapL
         intent.putExtra("accuracy_edit",accuracy_edit.getText().toString());
         intent.putExtra("longitude",longitude.getText().toString());
         intent.putExtra("latitude",latitude.getText().toString());
-        intent.putExtra("RowNum",RowNum);
-        intent.putExtra("ColumnNum",ColumnNum);
+        intent.putExtra("rowNum",RowNum);
+        intent.putExtra("columnNum",ColumnNum);
         intent.setClass(meterboxdatacollection.this,ElectricityMeterBoxDateCollectionActivity.class);
         startActivity(intent);
     }

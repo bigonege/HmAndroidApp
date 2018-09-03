@@ -128,6 +128,14 @@ public class MainActivity extends PermissionsActivity
                 // TODO Auto-generated method stub
             }
         });
+        Button exportBtn  = (Button)findViewById(R.id.export);
+        exportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "该功能正在开发中...", Toast.LENGTH_LONG).show();
+
+            }
+        });
         Location();
         //导航按钮
         naviButton = (Button) findViewById(R.id.button6);

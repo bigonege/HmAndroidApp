@@ -112,4 +112,21 @@ public class MeterInfo {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+    @Override
+    public String toString() {
+        return "MeterInfo{" +
+                "id=" + id +
+                ", boxMeterRela=" + boxMeterRela +
+                ", assetNo='" + assetNo + '\'' +
+                ", installAddress='" + installAddress + '\'' +
+                ", detailAddress='" + detailAddress + '\'' +
+                ", posX=" + posX +
+                ", posY=" + posY +
+                ", rowNo=" + rowNo +
+                ", colNo=" + colNo +
+                ", statusCode=" + statusCode +
+                ", createTime=" + createTime +
+                '}';
+    }
 }
